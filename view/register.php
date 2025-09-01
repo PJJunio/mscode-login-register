@@ -4,10 +4,27 @@ include_once __DIR__ . '/../config/dbConn.php';
 
 require_once __DIR__ . '/../database/Database.php';
 
+function checkEmail($conn, $email) {
+        $sql = 'SELECT COUNT(*) FROM user WHERE email = :email';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        $list = $stmt->fetchColumn();
+
+        if ($list > 0) {
+            return true;
+        }
+        return false;
+}
+
 if (!empty($_POST)) {
     $name = $_POST['inputName'] ?? '';
     $email = $_POST['inputEmail'] ?? '';
     $password = $_POST['inputPassword'] ?? '';
+
+    if (checkEmail($conn, $email)) {
+        echo "Email já existe, tente novamente";
+        exit;
+    }
 
     if (empty($name) || empty($email) || empty($password)) {
         echo "Preencha todos os campos!";
@@ -15,7 +32,12 @@ if (!empty($_POST)) {
     }
 
     if (strlen($password) < 8) {
-        echo "Sua senha deve ter no mínimo 6 caracteres!";
+        echo "Sua senha deve ter no mínimo 8 caracteres!";
+        exit;
+    }
+
+    if (checkEmail($conn, $email)) {
+        echo "email já existe";
         exit;
     }
 
