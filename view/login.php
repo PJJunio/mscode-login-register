@@ -4,7 +4,8 @@ include_once __DIR__ . '/../config/showErros.php';
 include_once __DIR__ . '/../config/dbConn.php';
 require_once __DIR__ . '/../database/Database.php';
 
-function checkPassword($conn, $email, $password) {
+function checkPassword($conn, $email, $password)
+{
     $sql = 'SELECT password FROM user WHERE email = :email';
     $stmt = $conn->prepare($sql);
     $stmt->execute(['email' => $email]);
@@ -23,12 +24,12 @@ if (!empty($_POST)) {
     if (empty($email) || empty($password)) {
         echo "Preencha todos os campos";
         exit;
-       }
+    }
 
     if (checkPassword($conn, $email, $password)) {
         session_start();
         $_SESSION['email'] = $email;
-        header('Location: ../views/test.php');
+        header('Location: ./test.php');
         exit;
     } else {
         echo "Email ou senha incorretos";
@@ -50,7 +51,7 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <form>
+    <form method="POST">
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" class="form-control" id="inputEmail" name="inputEmail" aria-describedby="emailHelp">
