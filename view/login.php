@@ -22,17 +22,15 @@ if (!empty($_POST)) {
     $password = $_POST['inputPassword'];
 
     if (empty($email) || empty($password)) {
-        echo "Preencha todos os campos";
-        exit;
-    }
-
-    if (checkPassword($conn, $email, $password)) {
+        echo '<center><div class="alert alert-warning">Preencha todos os campos</div></center>';
+        
+    }else if (checkPassword($conn, $email, $password)) {
         session_start();
         $_SESSION['email'] = $email;
         header('Location: ./test.php');
         exit;
     } else {
-        echo "Email ou senha incorretos";
+        echo '<center><div class="alert alert-warning">Credenciais inválidas</div></center>';
     }
 }
 
@@ -51,19 +49,29 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <form method="POST">
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="inputEmail" name="inputEmail" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">Digite seu email</div>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 border border-3 rounded p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="inputEmail" name="inputEmail"
+                            aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Digite seu email</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="inputPassword" name="inputPassword">
+                        <div id="emailHelp" class="form-text">Digite sua senha</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <a href="./register.php" class="btn btn-primary">Criar uma conta</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="inputPassword" name="inputPassword">
-            <div id="emailHelp" class="form-text">Digite sua senha</div>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

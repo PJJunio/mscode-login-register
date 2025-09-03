@@ -3,16 +3,17 @@ include_once __DIR__ . '/../config/showErros.php';
 include_once __DIR__ . '/../config/dbConn.php';
 require_once __DIR__ . '/../database/Database.php';
 
-function checkEmail($conn, $email) {
-        $sql = 'SELECT COUNT(*) FROM user WHERE email = :email';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['email' => $email]);
-        $list = $stmt->fetchColumn();
+function checkEmail($conn, $email)
+{
+    $sql = 'SELECT COUNT(*) FROM user WHERE email = :email';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['email' => $email]);
+    $list = $stmt->fetchColumn();
 
-        if ($list > 0) {
-            return true;
-        }
-        return false;
+    if ($list > 0) {
+        return true;
+    }
+    return false;
 }
 
 if (!empty($_POST)) {
@@ -20,32 +21,25 @@ if (!empty($_POST)) {
     $email = $_POST['inputEmail'] ?? '';
     $password = $_POST['inputPassword'] ?? '';
 
-    if (checkEmail($conn, $email)) {
-        echo "Email já existe, tente novamente";
-        exit;
-    }
-
     if (empty($name) || empty($email) || empty($password)) {
-        echo "Preencha todos os campos!";
-        exit;
-    }
+        echo '<center><div class="alert alert-warning">Preencha todos os campos</div></center>';
 
-    if (strlen($password) < 8) {
-        echo "Sua senha deve ter no mínimo 8 caracteres!";
-        exit;
-    }
+    } else if (strlen($password) < 8) {
+        echo '<center><div class="alert alert-warning">Sua senha deve ter no mínimo 8 caracteres!</div></center>';
 
-    if (checkEmail($conn, $email)) {
-        echo "email já existe";
-        exit;
-    }
+    } else if (checkEmail($conn, $email)) {
+        echo '<center><div class="alert alert-warning">Este email já existe</div></center>';
+        
+    } else {
+        $sql = 'INSERT INTO user (nome, email, password) VALUES (
+        :name,
+        :email,
+        :password)';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(compact('name', 'email', 'password'));
 
-    $sql = 'INSERT INTO user (nome, email, password) VALUES (
-    :name,
-    :email,
-    :password)';
-    $stmt = $conn->prepare($sql);
-    $stmt->execute(compact('name', 'email', 'password'));
+        echo '<center><div class="alert alert-success">Usuário cadastrado com sucesso!</div></center>';
+    }
 }
 
 ?>
@@ -62,24 +56,35 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <form method="POST">
-        <div class="mb-3">
-            <label for="exampleInputName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="exampleInputName" name="inputName" aria-describedby="nameHelp">
-            <div id="nameHelp" class="form-text">Digite seu nome.</div>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 border border-3 rounded p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="exampleInputName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="exampleInputName" name="inputName"
+                            aria-describedby="nameHelp">
+                        <div id="nameHelp" class="form-text">Digite seu nome.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" name="inputEmail"
+                            aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Digite seu email</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="InputPassword" name="inputPassword">
+                        <div id="passwordHelp" class="form-text">Sua senha precisa de no mínimo 8 caracteres</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                        <a href="./login.php" class="btn btn-primary">Fazer login</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" name="inputEmail" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">Digite seu email</div>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="InputPassword" name="inputPassword">
-            <div id="passwordHelp" class="form-text">Sua senha precisa de no mínimo 8 caracteres</div>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
