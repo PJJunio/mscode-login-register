@@ -23,11 +23,11 @@ if (!empty($_POST)) {
 
     if (empty($email) || empty($password)) {
         echo '<center><div class="alert alert-warning">Preencha todos os campos</div></center>';
-        
+
     }else if (checkPassword($conn, $email, $password)) {
         session_start();
         $_SESSION['email'] = $email;
-        header('Location: ./test.php');
+        header('Location: ./dashboard.php');
         exit;
     } else {
         echo '<center><div class="alert alert-warning">Credenciais inválidas</div></center>';

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../database/Database.php';
 
 session_start();
 
-var_dump($_SESSION);
+$user = $_SESSION; //Tratar para mostrar um welcome do usuario ativo!
 
 if (empty($_SESSION)) {
     header('Location: ./login.php');
