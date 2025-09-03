@@ -11,10 +11,7 @@ function checkPassword($conn, $email, $password)
     $stmt->execute(['email' => $email]);
     $dbPassword = $stmt->fetchColumn();
 
-    if ($dbPassword && $dbPassword === $password) {
-        return true;
-    }
-    return false;
+    return $dbPassword === $password;
 }
 
 if (!empty($_POST)) {
@@ -27,7 +24,7 @@ if (!empty($_POST)) {
     }else if (checkPassword($conn, $email, $password)) {
         session_start();
         $_SESSION['email'] = $email;
-        header('Location: ./dashboard.php');
+        header('Location: ../index.php');
         exit;
     } else {
         echo '<center><div class="alert alert-warning">Credenciais inválidas</div></center>';
@@ -38,7 +35,7 @@ if (!empty($_POST)) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">

@@ -10,10 +10,7 @@ function checkEmail($conn, $email)
     $stmt->execute(['email' => $email]);
     $list = $stmt->fetchColumn();
 
-    if ($list > 0) {
-        return true;
-    }
-    return false;
+    return $list > 0;
 }
 
 if (!empty($_POST)) {
