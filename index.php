@@ -9,6 +9,7 @@ if (empty($_SESSION)) {
     header('Location: view/login.php');
     exit;
 }
+
 $userEmail = $_SESSION['email'];
 
 function getUser($conn, $userEmail)
@@ -16,30 +17,15 @@ function getUser($conn, $userEmail)
     $sql = 'SELECT nome FROM user WHERE email = :email';
     $stmt = $conn->prepare($sql);
     $stmt->execute(['email' => $userEmail]);
-    $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $user;
 }
 
-getUser($conn, $userEmail); //é pra printar o nome do usuario ta tela, se vira kkkkk
+$userData = getUser($conn, $userEmail);
 
-function deleteUser($conn, $userEmail)
-{
-    try {
-        $sql = 'DELETE FROM users WHERE email = :userEmail';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['userEmail' => $userEmail]);
-    } catch (\Throwable $throwable) {
-        $conn->rollBack();
+echo "<h1>Seja bem vindo " . $userData['nome'] . "!</h1>";
 
-        echo 'Ocorreu um erro ao excluir o aluno.'
-            . PHP_EOL .
-            'Erro: ' . $throwable->getMessage();
-        exit;
-    }
-}
-
-function teste(){
-    echo "teste";
-}
 ?>
 
 <!DOCTYPE html>
@@ -49,13 +35,43 @@ function teste(){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
 <body>
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+        </tbody>
+    </table>
     <br>
     <a href="./action/logoff.php">Deslogar</a>
     <br>
-    <!-- <button>Deletar conta</button> -->
+    <a href="./action/deleteUser.php">Deletar Usuario</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
