@@ -21,7 +21,7 @@ if (!empty($_POST)) {
     if (empty($email) || empty($password)) {
         echo '<center><div class="alert alert-warning">Preencha todos os campos</div></center>';
 
-    }else if (checkPassword($conn, $email, $password)) {
+    } else if (checkPassword($conn, $email, $password)) {
         session_start();
         $_SESSION['email'] = $email;
         header('Location: ../index.php');
@@ -30,7 +30,6 @@ if (!empty($_POST)) {
         echo '<center><div class="alert alert-warning">Credenciais inválidas</div></center>';
     }
 }
-
 
 ?>
 
