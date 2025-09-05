@@ -10,3 +10,10 @@ if (empty($_SESSION)) {
     header('Location: view/login.php');
     exit;
 }
+
+$sql = "DELETE FROM user WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['id' => $_GET['id']]);
+
+header('Location: ../index');
+exit;

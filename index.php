@@ -22,9 +22,18 @@ function getUser($conn, $userEmail)
     return $user;
 }
 
+function listUsers($conn, $userEmail)
+{
+    $sql = 'SELECT id,nome,email,cidade FROM user WHERE email != :email ORDER BY id';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['email' => $userEmail]);
+    $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $user;
+}
+
 $userData = getUser($conn, $userEmail);
 
-echo "<h1>Seja bem vindo " . $userData['nome'] . "!</h1>";
+echo "<h1 class='mx-2'>Seja bem vindo " . $userData['nome'] . "!</h1><hr>";
 
 ?>
 
@@ -34,44 +43,59 @@ echo "<h1>Seja bem vindo " . $userData['nome'] . "!</h1>";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>CRUD Database</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <table class="table table-bordered table-dark">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-    <a href="./action/logoff.php">Deslogar</a>
-    <br>
-    <a href="./action/deleteUser.php">Deletar Usuario</a>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+    <div class="container-fluid pb-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">CRUD Database</h1>
+                <hr>
+                <div class="d-flex mt-4 my-3">
+                    <button class="btn btn-success text-white">Adicionar</button>
+                    <a href="/action/logoff.php" class="btn btn-success text-white ms-2">Sair da conta</a>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-borderless mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Cidade</th>
+                                        <th scope="col">Acao</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach (listUsers($conn, $userEmail) as $user) {
+                                        echo "<tr class='bg-light'>";
+                                        echo "<td>" . $user['id'] . "</td>";
+                                        echo "<td>" . $user['nome'] . "</td>";
+                                        echo "<td>" . $user['email'] . "</td>";
+                                        echo "<td>" . $user['cidade'] . "</td>";
+                                        echo "<td>
+                                                <a href='/action/editUser.php?id=" . $user['id'] . "' class='btn btn-warning btn-sm text-dark me-1'>Edit</a>
+                                                <a href='/action/deleteUser.php?id=" . $user['id'] . "' class='btn btn-danger btn-sm'>Del</a>
+                                            </td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
