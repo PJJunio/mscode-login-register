@@ -5,7 +5,7 @@
 class Database // Define a classe Database
 {
     // Endereço do servidor do banco de dados
-    private string $host = 'localhost';
+    private string $host = 'localhost:3306';
     // Nome do banco de dados
     private string $db_name = 'shop_login';
     // Usuário do banco de dados
