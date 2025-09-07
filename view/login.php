@@ -39,7 +39,7 @@ if (!empty($_POST)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
@@ -50,13 +50,13 @@ if (!empty($_POST)) {
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 border border-3 rounded p-4">
                 <form method="POST">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <label for="exampleInputEmail1" class="form-label">Email</label>
                         <input type="email" class="form-control" id="inputEmail" name="inputEmail"
                             aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">Digite seu email</div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <label for="exampleInputPassword1" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="inputPassword" name="inputPassword">
                         <div id="emailHelp" class="form-text">Digite sua senha</div>
                     </div>
