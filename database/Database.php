@@ -11,7 +11,7 @@ class Database // Define a classe Database
     // Usuário do banco de dados
     private string $username = 'root';
     // Senha do banco de dados
-    private string $password = 'password';
+    private string $password = 'root';
     // Conexão PDO (inicia como nula)
     private ?PDO $conn = null;
 
