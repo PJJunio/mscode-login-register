@@ -11,11 +11,14 @@ if (empty($_SESSION)) {
     exit;
 }
 
-$userId = $_GET['id'];
+$userName = $_GET['userName'];
 
 if (!empty($_POST)) {
     $newEmail = $_POST['newEmail'];
-    $newPassword = $_POST['newPassword'];
+
+    if (strlen($_POST['newPassword']) < 8) {
+        $newPassword = $_POST['newPassword'];
+    }
 }
 
 ?>
@@ -35,16 +38,21 @@ if (!empty($_POST)) {
     <div class="container">
         <div class="d-flex justify-content-center align-items-center vh-100">
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 border border-3 rounded p-4">
-                <form method="POST">
+                <form method="POST" action="../action/editUser.php">
                     <div class="mb-3">
-                        <label for="userId" class="form-label">Id do usuário</label>
-                        <textarea class="form-control" id="userId" readonly
-                            style="resize: none; height: 38px;"><?= $userId ?></textarea>
+                        <label for="userName" class="form-label">Usuário</label>
+                        <textarea class="form-control bg-secondary opacity-50" id="userName" readonly
+                            style="resize: none; height: 38px;"><?= $userName ?></textarea>
                     </div>
+                    <input type="hidden" name="userName" value="<?= htmlspecialchars($userName) ?>">
                     <div class="mb-3">
                         <label for="newEmail" class="form-label">Novo email</label>
                         <input type="email" class="form-control" id="newEmail" name="newEmail"
                             aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newCidade" class="form-label">Nova cidade</label>
+                        <input type="text" class="form-control" id="newCidade" name="newCidade">
                     </div>
                     <div class="mb-3">
                         <label for="newPassword" class="form-label">Nova senha</label>

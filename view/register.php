@@ -14,10 +14,10 @@ function checkEmail($conn, $email)
 }
 
 if (!empty($_POST)) {
-    $name = $_POST['inputName'] ?? '';
-    $email = $_POST['inputEmail'] ?? '';
-    $cidade = $_POST['inputCidade'] ?? ';';
-    $password = $_POST['inputPassword'] ?? '';
+    $name = $_POST['inputName'];
+    $email = $_POST['inputEmail'];
+    $cidade = $_POST['inputCidade'];
+    $password = $_POST['inputPassword'];
 
     if (empty($name) || empty($email) || empty($cidade) || empty($password)) {
         echo '<center><div class="alert alert-warning">Preencha todos os campos</div></center>';
@@ -36,8 +36,9 @@ if (!empty($_POST)) {
         :password)';
         $stmt = $conn->prepare($sql);
         $stmt->execute(compact('name', 'email', 'cidade', 'password'));
-
         echo '<center><div class="alert alert-success">Usuário cadastrado com sucesso!</div></center>';
+        echo '<script>setTimeout(function() { window.location.href = "./login.php"; }, 3000);</script>';
+        
     }
 }
 
@@ -66,7 +67,7 @@ if (!empty($_POST)) {
                         <div id="nameHelp" class="form-text">Digite seu nome.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputEmail" class="form-label">Endereço</label>
+                        <label for="inputEmail" class="form-label">Email</label>
                         <input type="email" class="form-control" id="inputEmail" name="inputEmail"
                             aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">Digite seu email</div>

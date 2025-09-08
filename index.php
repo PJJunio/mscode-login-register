@@ -80,7 +80,7 @@ echo "<h1 class='mx-2'>Seja bem vindo " . $userData['nome'] . "!</h1><hr>";
                                         echo "<td>" . $user['email'] . "</td>";
                                         echo "<td>" . $user['cidade'] . "</td>";
                                         echo "<td>
-                                                <a href='/view/editUser.php?id=" . $user['id'] . "' class='btn btn-warning btn-sm text-dark me-1'>Edit</a>
+                                                <a href='/view/editUser.php?userName=" . $user['nome'] . "' class='btn btn-warning btn-sm text-dark me-1'>Edit</a>
                                                 <a href='/action/deleteUser.php?id=" . $user['id'] . "' class='btn btn-danger btn-sm'>Del</a>
                                             </td>";
                                         echo "</tr>";

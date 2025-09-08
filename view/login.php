@@ -15,7 +15,7 @@ function checkPassword($conn, $email, $password)
 }
 
 if (!empty($_POST)) {
-    $email = $_POST['inputEmail'] ?? '';
+    $email = $_POST['inputEmail'];
     $password = $_POST['inputPassword'];
 
     if (empty($email) || empty($password)) {
